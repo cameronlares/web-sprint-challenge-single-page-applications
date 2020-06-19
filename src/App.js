@@ -6,7 +6,7 @@ import "./App.css";
 import axios from "axios";
 import * as Yup from "yup";
 
-const CustomText = ({ label, ...props }) => {
+const CustomTextInput = ({ label, ...props }) => {
   const [field, meta] = useField(props);
 
   return (
@@ -78,6 +78,8 @@ const App = () => {
             choiceOfSize: "",
             choiceOfSauce: "",
             addToppings: "",
+            name: "",
+             email:"",
           }}
           //Yup Validation
           // https://reqres.in/api/users
@@ -120,41 +122,37 @@ const App = () => {
           })}
           // Callback when form is submited
 
-          onSubmit={(values, { setSubmitting, resetForm }) => {
-            let myTest = []
-            setTimeout(() => {
-              axios.post("https://reqres.in/api/users", values)
+          onSubmit= {(values, {setSubmitting, resetForm}) =>{
            
-              .then((res) => {
-                
-                myTest= res.data
-                console.log(myTest)
-                setPizza(res.data);
-                
-                resetForm(); //reset form
-                setSubmitting(false);
-              });
+            setTimeout(() => {
+       
+              axios.post("https://reqres.in/api/users", values)
 
-            }, 3000)
-            .catch((err) => console.log(err)); //Axios is executed
+                .then((res) => {
+                 
+                  setPizza(res.data);
+                  setSubmitting(false);
+                });
+                resetForm(); //reset 
+            }, 3000).catch((err) => console.log(err)); //Axios is executed
           }}
         >
-          {(props) => (
+          {props => (
             <Form>
               <h1>Lambda Eats</h1>
 
-              <CustomText
+              <CustomTextInput
                 label="Name"
                 name="name"
                 type="text"
                 placeholder="Cameron"
               />
-              <CustomText
+
+              <CustomTextInput
                 label="Email"
                 name="email"
                 type="email"
-                placeholder="Cameron@gmail.com"
-              />
+                placeholder="Cam@cam.com"  />
 
               <h2>Choice of Size</h2>
 
@@ -186,14 +184,16 @@ const App = () => {
                 <option value="other">other</option>
               </CustomSauce>
 
-              <button type = "submit"> {props.isSubmitting ? 'Loading....' : 'Submit'}</button>
+              <button type="submit">
+                {" "}
+                {props.isSubmitting ? "Loading...." : "Submit"}
+              </button>
 
-            
-          <p>{Pizza.name}</p>
-          <p>{Pizza.email}</p>
-          <p>{Pizza.choiceOfSize}</p>
-          <p>{Pizza.addToppings}</p>
-          <p>{Pizza.choiceOfSauce}</p>
+              <p>{Pizza.name}</p>
+              <p>{Pizza.email}</p>
+              <p>{Pizza.choiceOfSize}</p>
+              <p>{Pizza.addToppings}</p>
+              <p>{Pizza.choiceOfSauce}</p>
             </Form>
           )}
         </Formik>
