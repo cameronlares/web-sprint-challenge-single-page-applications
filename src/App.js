@@ -129,7 +129,7 @@ const App = () => {
               axios.post("https://reqres.in/api/users", values)
 
                 .then((res) => {
-                 
+                 console.log(res.data)
                   setPizza(res.data);
                   setSubmitting(false);
                 });
